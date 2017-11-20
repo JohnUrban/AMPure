@@ -3,6 +3,7 @@ Script for figuring out AMPure ratios needed for size selection, etc.
 
 
 John Urban (2010-2017)
+
 I created this AMPure tool circa 2010-2011. I'm sharing this for others at The Carnegie Institution, as well as anyone else, to use.
 
 It is modeled using data from a series of experiments where I explored the effects of different AMPure ratios on DNA size that stays in the supernatant or goes on the beads.
