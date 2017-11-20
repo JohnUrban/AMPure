@@ -1,18 +1,14 @@
-# AMPure
-Script for figuring out AMPure ratios needed for size selection, etc.
+#!/usr/bin/env python2.7
 
+###!/usr/local/bin/python
 
-John Urban (2010-2017)
-I created this AMPure tool circa 2010-2011. I'm sharing this for others at The Carnegie Institution, as well as anyone else, to use.
+import sys
 
-It is modeled using data from a series of experiments where I explored the effects of different AMPure ratios on DNA size that stays in the supernatant or goes on the beads.
-
-The boundaries are not sharp cutoffs by any means - and where I decided to set the boundaries was subjective based on my experience with it.
-
-
-
+help_msg = '''
     AMPure version 1.1
-    Updated Nov 20, 2017.
+    John Urban (2010-2017)
+    Created 2010.
+    Updated Nov 20, 2017: more helpful help message, recipe for any volume (not just 100 ul).
 
     Usage 1: Give floor and ceiling sizes.
         Find the first and second ratio to use for given floor and ceiling boundaries (e.g. 200 to 500).
@@ -85,6 +81,58 @@ The boundaries are not sharp cutoffs by any means - and where I decided to set t
     You need to adjust ratios at each step that adds length to the DNA fragments you are working with.
     For NEBNext preps, size is added after adapter ligation AND after PCR.
     
+'''
+
+
+if len(sys.argv) == 1:
+    print help_msg
+    quit()
+
+m = (1.0-0.4)/(200-800)
+b = 0.4 - m*800
+
+if len(sys.argv) == 2: ##table
+    intervalSize = int(sys.argv[1])
+    print "Size\tRatio"
+    for x in range(200, 801, intervalSize):
+        print x, "\t", m*x + b
+    quit()
+
+minSize = float(sys.argv[1])
+maxSize = float(sys.argv[2])
+
+
+if minSize <= 1.0 and maxSize <= 1.0: ##ratios given
+    low = minSize
+    high = maxSize
+    minSize = int((high-b)/m)
+    maxSize = int((low-b)/m)
+    print minSize, "-", maxSize, "bp DNA will be selected."
+
+
+else:
+    low = m*maxSize + b
+    high = m*minSize + b
+    print low, " - ", high
 
 
 
+
+if (len(sys.argv) == 4 or len(sys.argv) == 5) and sys.argv[3][0] == "r":
+    volume = 100
+    if len(sys.argv) == 5:
+        volume = float(sys.argv[4])
+    print
+    print "To obtain DNA fragments in size range of", minSize, "to", maxSize, "start with AMPure ratio of ", low
+    print "Transfer sup from ", low, " to new tube."
+    print "Add ", high-low, " extra AMPure to hit target final ratio."
+    print "Final ratio needs to be ", high
+    print
+    print "For", volume, "ul DNA:"
+    print "    Add ", low*volume, " ul AMPure beads (ratio = ", low, ")"
+    print "    The sup contains DNA <= ", maxSize, "."
+    print "    Transfer sup to new tube. "
+    print "    Add ", (high-low)*volume, "ul AMPure beads to the previous sup."
+    print "    Final ratio is", high
+    print "    Treat this as normal AMPure cleaning and take DNA off beads"
+    print
