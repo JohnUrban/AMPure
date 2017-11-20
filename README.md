@@ -16,6 +16,13 @@ The boundaries are not sharp cutoffs by any means - and where I decided to set t
     Created 2010.
     Updated Nov 20, 2017: more helpful help message, recipe for any volume (not just 100 ul).
 
+    Obtain help message by any of the following:
+    AMPure
+    AMPure -h
+    AMPure -help
+    AMPure --help
+    AMPure -H
+
 
     Usage 1: Give floor and ceiling sizes.
         Find the first and second ratio to use for given floor and ceiling boundaries (e.g. 200 to 500).

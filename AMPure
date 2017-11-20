@@ -10,6 +10,13 @@ help_msg = '''
     Created 2010.
     Updated Nov 20, 2017: more helpful help message, recipe for any volume (not just 100 ul).
 
+    Obtain help message by any of the following:
+    AMPure
+    AMPure -h
+    AMPure -help
+    AMPure --help
+    AMPure -H
+
     Usage 1: Give floor and ceiling sizes.
         Find the first and second ratio to use for given floor and ceiling boundaries (e.g. 200 to 500).
     Syntax:
@@ -84,7 +91,7 @@ help_msg = '''
 '''
 
 
-if len(sys.argv) == 1:
+if len(sys.argv) == 1 or (len(sys.argv) > 1 and sys.argv[1] in ("-h", "-H", "-help", "--help")):
     print help_msg
     quit()
 
